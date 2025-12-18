@@ -1,28 +1,7 @@
-use std::default;
-
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq)]
-pub enum Value {
-    #[default]
-    Nine = 0,
-    Jack = 2,
-    Queen = 3,
-    King = 4,
-    Ten = 10,
-    Ace = 11,
-}
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq)]
-pub enum Suit {
-    #[default]
-    Spade = 40,
-    Club = 60,
-    Diamonds = 80,
-    Heart = 100,
-}
-#[derive(Default, Clone, Copy)]
-pub struct Card {
-    pub value: Value,
-    pub suit: Suit,
-}
+use crate::card::{Card, Suit, Value};
+use rand::rngs::mock::StepRng;
+use shuffle::irs::Irs;
+use shuffle::shuffler::Shuffler;
 
 pub fn full_deck() -> Vec<Card> {
     let values = [
@@ -42,4 +21,10 @@ pub fn full_deck() -> Vec<Card> {
         }
     }
     deck
+}
+
+pub fn shuffle_cards(cards: &mut Vec<Card>) {
+    let mut rng = StepRng::new(2, 13);
+    let mut irs = Irs::default();
+    let _ = irs.shuffle(cards, &mut rng);
 }

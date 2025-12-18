@@ -1,24 +1,27 @@
+use crate::deck::shuffle_cards;
 use deck::full_deck;
+use crate::card::Card;
+use crate::player::Player;
 
+mod card;
 mod deck;
+mod player;
 
-use shuffle::shuffler::Shuffler;
-use shuffle::irs::Irs;
-use rand::rngs::mock::StepRng;
+fn deal_cards(cards: &mut Vec<Card>, players: &mut Vec<Player>, stock_cards: &mut Vec<Card>) {
+    if players.len() >= 3 {
+        // Deal cards for first 3 players
+        for i in 0..cards.len() {
+            let card = cards.pop().unwrap();
+        }
+    }
+}
 
 fn main() {
+    let num_players = 3;
+    let mut players: Vec<Player> = Vec::with_capacity(num_players);
+    for i in 0..num_players {
+        players.push(Player::default());
+    }
     let mut cards = full_deck();
-    
-    for i in &cards {
-        println!("{} {}", i.value as i32, i.suit as i32);
-    }
-
-    let mut rng = StepRng::new(2, 13);
-    let mut irs = Irs::default();
-
-    irs.shuffle(&mut cards, &mut rng);
-
-    for i in cards {
-        println!("{} {}", i.value as i32, i.suit as i32);
-    }
+    shuffle_cards(&mut cards);
 }
