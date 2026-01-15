@@ -12,7 +12,7 @@ pub fn full_deck() -> Vec<Card> {
         Value::Ten,
         Value::Ace,
     ];
-    let suits = [Suit::Spade, Suit::Club, Suit::Diamonds, Suit::Heart];
+    let suits = [Suit::Spade, Suit::Club, Suit::Diamond, Suit::Heart];
 
     let mut deck = Vec::with_capacity(24);
     for &s in &suits {
