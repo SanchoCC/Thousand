@@ -53,10 +53,11 @@ fn main() {
         shuffle_cards(&mut cards);
         let mut stock_cards: Vec<Card> = Vec::new();
         deal_cards(&mut cards, &mut players, &mut stock_cards, start_index);
+        let mut bet = 100;
 
         for player in &mut players {
-            println!("Current player: {}", player.name);
-            println!("Enter command: 1: Print, 2: Sort Asc, 3: Sort Desc, Other: Quit");
+            println!("Current player: {}, {} points.", player.name, player.score);
+            println!("Enter command: 1: Print, 2: Sort Asc, 3: Sort Desc, 4: Raise to: {}, 5: Fold, Other: Quit", bet+10);
             io::stdout().flush().unwrap();
 
             let mut input = String::new();
@@ -76,6 +77,12 @@ fn main() {
                     // Descending sort
                     player.hand.sort_by(|a, b| b.cmp(a));
                     println!("Cards sorted (Descending).");
+                }
+                "4" => {
+                    // Raise
+                }
+                "5" => {
+                    // Fold
                 }
                 _ => continue,
             }
