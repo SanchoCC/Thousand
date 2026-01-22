@@ -1,7 +1,7 @@
 use std::cmp::Ordering;
 use std::fmt;
 
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Value {
     #[default]
     Nine = 0,
@@ -24,7 +24,8 @@ impl fmt::Display for Value {
         }
     }
 }
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq)]
+
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Suit {
     #[default]
     Spade = 40,
@@ -44,8 +45,8 @@ impl fmt::Display for Suit {
     }
 }
 
-#[derive(Default, Clone, Copy)]
+#[derive(Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Card {
-    pub value: Value,
     pub suit: Suit,
+    pub value: Value,
 }

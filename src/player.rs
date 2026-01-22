@@ -1,7 +1,7 @@
 use crate::card::Card;
 
 pub struct Player {
-    name: String,
+    pub name: String,
     pub hand: Vec<Card>,
     pub score: i32,
 }

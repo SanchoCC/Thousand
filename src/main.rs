@@ -2,6 +2,7 @@ use crate::card::Card;
 use crate::deck::shuffle_cards;
 use crate::player::Player;
 use deck::full_deck;
+use std::io::{self, Write};
 
 mod card;
 mod deck;
@@ -29,7 +30,12 @@ fn deal_cards(
 }
 
 fn print_cards(cards: &[Card]) {
+    let mut last_suit = cards[0].suit;
     for card in cards {
+        if last_suit != card.suit {
+            print!("  ");
+            last_suit = card.suit;
+        }
         print!("{}{} ", card.value, card.suit);
     }
 }
@@ -40,11 +46,45 @@ fn main() {
     for i in 0..num_players {
         players.push(Player::default());
     }
-    let mut cards = full_deck();
-    shuffle_cards(&mut cards);
+
     let mut start_index = 0;
-    let mut stock_cards: Vec<Card> = Vec::new();
-    deal_cards(&mut cards, &mut players, &mut stock_cards, start_index);
-    // &players[0].hand.sort();
-    print_cards(&players[0].hand);
+    loop {
+        let mut cards = full_deck();
+        shuffle_cards(&mut cards);
+        let mut stock_cards: Vec<Card> = Vec::new();
+        deal_cards(&mut cards, &mut players, &mut stock_cards, start_index);
+
+        for player in &mut players {
+            println!("Current player: {}", player.name);
+            println!("Enter command: 1: Print, 2: Sort Asc, 3: Sort Desc, Other: Quit");
+            io::stdout().flush().unwrap();
+
+            let mut input = String::new();
+            io::stdin().read_line(&mut input).unwrap();
+
+            match input.trim() {
+                "1" => {
+                    print_cards(&player.hand);
+                    println!();
+                }
+                "2" => {
+                    // Ascending sort
+                    player.hand.sort();
+                    println!("Cards sorted (Ascending).");
+                }
+                "3" => {
+                    // Descending sort
+                    player.hand.sort_by(|a, b| b.cmp(a));
+                    println!("Cards sorted (Descending).");
+                }
+                _ => continue,
+            }
+        }
+
+        for player in &mut players {
+            player.hand.clear();
+        }
+        start_index += 1;
+        start_index %= players.len();
+    }
 }
