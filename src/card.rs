@@ -1,6 +1,6 @@
-use std::cmp::Ordering;
 use std::fmt;
 
+#[repr(i32)]
 #[derive(Default, Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Value {
     #[default]
@@ -12,8 +12,15 @@ pub enum Value {
     Ace = 11,
 }
 
+impl Value {
+    #[inline]
+    pub fn points(self) -> i32 {
+        self as i32
+    }
+}
+
 impl fmt::Display for Value {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Value::Nine => write!(f, "9"),
             Value::Jack => write!(f, "J"),
@@ -25,6 +32,7 @@ impl fmt::Display for Value {
     }
 }
 
+#[repr(i32)]
 #[derive(Default, Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Suit {
     #[default]
@@ -34,8 +42,15 @@ pub enum Suit {
     Heart = 100,
 }
 
+impl Suit {
+    #[inline]
+    pub fn marriage_points(self) -> i32 {
+        self as i32
+    }
+}
+
 impl fmt::Display for Suit {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Suit::Heart => write!(f, "♥"),
             Suit::Diamond => write!(f, "♦"),
@@ -45,7 +60,7 @@ impl fmt::Display for Suit {
     }
 }
 
-#[derive(Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Card {
     pub suit: Suit,
     pub value: Value,
